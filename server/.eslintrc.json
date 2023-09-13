@@ -1,0 +1,13 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "@typescript-eslint/typedef": [
+      "error",
+      {
+        "variableDeclaration": true,
+        "variableDeclarationIgnoreFunction": true
+      }
+    ]
+  }
+}
