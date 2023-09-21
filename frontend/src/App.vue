@@ -88,7 +88,7 @@ export default {
       this.apiCall("air-conditioner/on");
     },
     controlCeilingLight() {
-      this.apiCall("ceiling-light/on");
+      this.apiCall("ceiling-light/toggle");
     },
     controlPC() {
       this.apiCall("pc/on");
