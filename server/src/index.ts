@@ -13,10 +13,11 @@ app.get("/", (req: Request, res: Response): void => {
   res.send(r);
 });
 
-app.get("/api/ceiling-light/on", (req: Request, res: Response) => {
-  swRequestHandler(process.env.SB_CEILING_LIGHT_DEVICE_ID, "toggle");
-  const r: string = JSON.stringify({ success: true });
-  res.send(r);
+app.get("/api/ceiling-light", (req: Request, res: Response) => {
+  swRequestHandler(process.env.SB_CEILING_LIGHT_DEVICE_ID, "toggle").then(
+    (data) => res.send(data),
+    (err) => res.send(err),
+  );
 });
 
 app.get("/api/air-conditioner/cooling/on", (req: Request, res: Response) => {

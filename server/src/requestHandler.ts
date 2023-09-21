@@ -4,10 +4,29 @@ import * as https from "https";
 import { sprintf } from "sprintf-js";
 ("sprintf-js");
 
+const requestAsync = (
+  options: string | URL | https.RequestOptions,
+  body: string,
+): Promise<any> => {
+  return new Promise((resolve, reject): void => {
+    let r: http.ClientRequest = https.request(options, (res) => {
+      const chunks: any = [];
+      res.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
+      res.on("end", () => {
+        let rs: Object = JSON.parse(Buffer.concat(chunks).toString());
+        resolve(rs);
+      });
+      res.on("error", reject);
+    });
+    r.write(body);
+    r.end();
+  });
+};
+
 export function swRequestHandler(
   swDeviceID: string | undefined,
   command: string,
-): void {
+) {
   const switchbotApiUrl: string =
     "https://api.switch-bot.com/v1.0/devices/%s/commands";
   const urlObj: URL = new URL(sprintf(switchbotApiUrl, swDeviceID));
@@ -26,18 +45,5 @@ export function swRequestHandler(
       "Content-Type": "application/json",
     },
   };
-  const r: http.ClientRequest = https.request(
-    options,
-    (res: http.IncomingMessage) => {
-      console.log(`Status Code: ${res.statusCode}`);
-      res.on("data", (data: Buffer) => {
-        console.log(data.toString());
-      });
-    },
-  );
-  r.on("error", (error) => {
-    console.error(error);
-  });
-  r.write(body);
-  r.end();
+  return requestAsync(options, body);
 }
