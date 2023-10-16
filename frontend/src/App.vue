@@ -1,7 +1,7 @@
 <template>
   <h1>おうちコントロールパネル</h1>
-  <div class="home">
-    <img usemap="#interact" src="./assets/room.png" />
+  <div id="home" class="flex-center-container">
+    <img id="room" usemap="#interact" src="./assets/room.png" />
     <map name="interact">
       <area
         shape="poly"
@@ -59,13 +59,30 @@ img {
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
+
+.flex-center-container {
+  display: flex;
+  justify-content: center;
+}
 </style>
 
 <script>
+import $ from "jquery";
+import "maphilight";
+
 export default {
   apiUrl: "",
   mounted() {
     this.apiUrl = process.env.VUE_APP_API_URL;
+    $("#room").maphilight({
+      fill: true,
+      fillColor: "ffffff",
+      fillOpacity: 0.4,
+      stroke: false,
+      strokeColor: "fc17cf",
+      fade: true,
+      shadow: true,
+    });
   },
   methods: {
     apiCall(apiPath) {
@@ -76,12 +93,10 @@ export default {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
-          //TODO 通信の成功失敗を出す
+          console.log("at least api has respond. data : " + data);
         })
         .catch(() => {
           console.log("something gone wrong!");
-          //TODO 通信の成功失敗を出す
         });
     },
     controlAirConditioner() {
