@@ -8,7 +8,12 @@
         coords="142,71,134,116,32,145,13,141,10,91,124,62,124,62"
         href="#"
         alt="エアコン"
-        @click="controlAirConditioner"
+        @click="controlAirConditioner('on')"
+        v-longpress="
+          () => {
+            controlAirConditioner('off');
+          }
+        "
       />
       <area
         shape="poly"
@@ -99,8 +104,8 @@ export default {
           console.log("something gone wrong!");
         });
     },
-    controlAirConditioner() {
-      this.apiCall("air-conditioner/on");
+    controlAirConditioner(cmd) {
+      this.apiCall(`ac-heating/${cmd}`);
     },
     controlCeilingLight() {
       this.apiCall("ceiling-light/toggle");
