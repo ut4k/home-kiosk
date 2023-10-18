@@ -20,10 +20,18 @@ app.get("/api/ceiling-light/toggle", (req: Request, res: Response) => {
   );
 });
 
-app.get("/api/air-conditioner/cooling/on", (req: Request, res: Response) => {
-  //TODO
-  const r: string = JSON.stringify({ success: false });
-  res.send(r);
+app.get("/api/ac-heating/on", (req: Request, res: Response) => {
+  swRequestHandler(process.env.SB_AC_HEATING_DEVICE_ID, "turnOn").then(
+    (data) => res.send(data),
+    (err) => res.send(err),
+  );
+});
+
+app.get("/api/ac-heating/off", (req: Request, res: Response) => {
+  swRequestHandler(process.env.SB_AC_HEATING_DEVICE_ID, "turnOff").then(
+    (data) => res.send(data),
+    (err) => res.send(err),
+  );
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
