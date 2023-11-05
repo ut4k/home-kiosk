@@ -34,4 +34,11 @@ app.get("/api/ac-heating/off", (req: Request, res: Response) => {
   );
 });
 
+app.get("/api/tv/power", (req: Request, res: Response) => {
+  swRequestHandler(process.env.SB_TV_DEVICE_ID, "turnOn").then(
+    (data) => res.send(data),
+    (err) => res.send(err),
+  );
+});
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
