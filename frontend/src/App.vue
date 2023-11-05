@@ -34,7 +34,7 @@
         coords="179,294,141,294,100,305,92,313,95,360,123,379,181,358,181,358"
         href="#"
         alt="テレビ"
-        @click="controlTV()"
+        @click="controlTV"
       />
     </map>
   </div>

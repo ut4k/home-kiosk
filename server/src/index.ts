@@ -3,6 +3,7 @@ import express from "express";
 import type { Express, Request, Response } from "express";
 import "dotenv/config";
 import { swRequestHandler } from "./requestHandler";
+import "wake_on_lan";
 
 const app: Express = express();
 const port: number = 8081;
@@ -39,6 +40,17 @@ app.get("/api/tv/power", (req: Request, res: Response) => {
     (data) => res.send(data),
     (err) => res.send(err),
   );
+});
+
+app.get("/api/pc/on", (req: Request, res: Response) => {
+  let wol: any = require("wake_on_lan");
+  wol.wake(process.env.MY_COMPUTER_MAC_ADDRESS, (err: string) => {
+    if (err) {
+      console.log("something gone wrong!", err);
+    } else {
+      console.log("magic packet has been sent!");
+    }
+  });
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
